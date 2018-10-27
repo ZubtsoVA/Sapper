@@ -20,6 +20,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.*;
 import java.io.File;
+import javafx.scene.text.Font;
 
 
 
@@ -44,7 +45,6 @@ public class Main extends Application {
         OptionsWindow.setMinWidth(400);
         Button SoundEnable = new Button("Enable sound");
         Button SoundDisable = new Button("Disable sound");
-        mediaPlayer.play();
         SoundDisable.setOnAction(new EventHandler<ActionEvent>() {
            @Override
            public void handle(ActionEvent event) {
@@ -141,8 +141,27 @@ public class Main extends Application {
         stage.setMinWidth(350);
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("worked?");
+        root.setStyle("-fx-padding: 150;");
+        stage.setTitle("Sapper");
         stage.show();
+        Stage LossStage = new Stage();
+        VBox lossroot = new VBox();
+        Scene LossScene = new Scene(lossroot);
+        lossroot.setStyle("-fx-padding: 150");
+        Text losstext = new Text("You Died");
+        losstext.setFont(Font.font(52));
+        lossroot.getChildren().add(losstext);
+        lossroot.setMinSize(250,250);
+        lossroot.setPrefSize(500,500);
+        String lossfile = "lossmusic.mp3";
+        Media losssound = new Media(new File(lossfile).toURI().toString());
+        MediaPlayer lossPlayer = new MediaPlayer(losssound);
+        mediaPlayer.stop();
+        lossPlayer.play();
+        LossStage.setScene(LossScene);
+        LossStage.show();
+
+
 
     }
     public void printMessage(String msg){
