@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -30,6 +32,9 @@ public class Field extends Button implements EventHandler<MouseEvent>{
     private boolean closed;
     private boolean isMarked;
     private Fields fields;
+    private static final String lossfile = "lossmusic.mp3";
+    private static final  Media losssound = new Media(new File(lossfile).toURI().toString());
+    private static final MediaPlayer lossPlayer = new MediaPlayer(losssound);
 
     public static Stage curStage;
     public Field(int inRow, int inCol,int inHeight,int inWidth,  int inMineCount, Fields inFields ) {
@@ -72,6 +77,52 @@ public class Field extends Button implements EventHandler<MouseEvent>{
             fields.IncOpened();
             if (this.mineCount == -1) {
                 Pane LossPic = new Pane();
+                MenuButton nGBtn = new MenuButton("Start over?");
+                MenuItem Easy = new MenuItem("Easy");
+                Easy.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        GridPane grid = Main.create(5, 7, 8);
+                        curStage.close();
+                        Field.createScenenStage(grid);
+                        Field.curStage.show();
+                        Field.lossPlayer.stop();
+                    }
+                });
+                MenuItem Normal = new MenuItem("Normal");
+                Normal.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        GridPane grid = Main.create(8, 10, 18);
+                        curStage.close();
+                        Field.createScenenStage(grid);
+                        Field.curStage.show();
+                        Field.lossPlayer.stop();
+                    }
+                });
+                MenuItem Hard = new MenuItem("Hard");
+                Hard.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        GridPane grid = Main.create(9, 9, 18);
+                        curStage.close();
+                        Field.createScenenStage(grid);
+                        Field.curStage.show();
+                        Field.lossPlayer.stop();
+                    }
+                });
+                MenuItem Insane = new MenuItem("Insane");
+                Insane.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        GridPane grid = Main.create(20, 25, 150);
+                        curStage.close();
+                        Field.createScenenStage(grid);
+                        Field.curStage.show();
+                        Field.lossPlayer.stop();
+                    }
+                });
+                nGBtn.getItems().addAll(Easy, Normal, Hard, Insane);
                 Image LossImg = new Image(getClass().getResourceAsStream("/lossimg.jpg"));
                 ImageView ViewLossImg = new ImageView(LossImg);
                 ViewLossImg.setFitHeight(500);
@@ -81,13 +132,10 @@ public class Field extends Button implements EventHandler<MouseEvent>{
                 lossroot.setAlignment(Pos.TOP_CENTER);
                 Text losstext = new Text("You Died");
                 losstext.setFont(Font.font(52));
-                lossroot.getChildren().add(losstext);
+                lossroot.getChildren().addAll(losstext, nGBtn);
                 lossroot.setMinSize(250, 250);
                 lossroot.setPrefSize(500, 500);
-                String lossfile = "lossmusic.mp3";
                 LossPic.getChildren().add(lossroot);
-                Media losssound = new Media(new File(lossfile).toURI().toString());
-                MediaPlayer lossPlayer = new MediaPlayer(losssound);
                 lossPlayer.play();
                 Scene scene = new Scene(LossPic);
                 curStage.setScene(scene);

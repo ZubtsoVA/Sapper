@@ -4,34 +4,20 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.Pos;
-import javafx.animation.*;
-
-import java.awt.*;
 import java.io.File;
 import java.util.Random;
 
-import javafx.scene.text.Font;
+
 
 
 
@@ -39,16 +25,6 @@ import javafx.scene.text.Font;
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
-    }
-    static int i = 0;
-    public static void start1(Stage primaryStage) {
-        Parent root = new Group(create(6, 6, 5));
-        primaryStage.setTitle("saper");
-        Scene scene = new Scene(root, 6*40, 6*40);
-        primaryStage.setScene(scene);
-
-
-        primaryStage.show();
     }
     public static GridPane create(int height, int width, int bombCount) {
         int[][] bombs = new int[height][width];
@@ -99,7 +75,6 @@ public class Main extends Application {
         VBox MenuBox = new VBox();
         Button SoundEnable = new Button("Enable sound");
         boolean[] songIsPlaying = new boolean[1];
-        songIsPlaying[0] = false;
         Button SoundDisable = new Button("Disable sound");
         SoundDisable.setOnAction(new EventHandler<ActionEvent>() {
             @Override
