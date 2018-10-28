@@ -36,12 +36,43 @@ import javafx.scene.text.Font;
 
 
 
-
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    static int i = 0;
+    public static void start1(Stage primaryStage) {
+        Parent root = new Group(create(6, 6, 5));
+        primaryStage.setTitle("saper");
+        Scene scene = new Scene(root, 6*40, 6*40);
+        primaryStage.setScene(scene);
 
+
+        primaryStage.show();
+    }
+    public static GridPane create(int height, int width, int bombCount) {
+        int[][] bombs = new int[height][width];
+        Random rand = new Random();
+        int j;
+        for (int i = 0; i < bombCount; ) {
+            j = rand.nextInt(height * width);
+            if (bombs[j / width][j % width] != -1) {
+                bombs[j / width][j % width] = -1;
+                i = i + 1;
+            }
+        }
+
+
+        Fields fields = new Fields(bombs, height ,width );
+        GridPane grid = new GridPane();
+        for (int i = 0; i < height; i = i + 1) {
+            for (j = 0; j < width; j = j + 1) {
+                grid.add(fields.fields[i][j], i, j);
+            }
+
+        }
+        return grid;
+    }
     @Override
         public void start(Stage stage) {
         Image StImage = new Image(getClass().getResourceAsStream("/1sapper.jpg"));
@@ -70,7 +101,6 @@ public class Main extends Application {
         boolean[] songIsPlaying = new boolean[1];
         songIsPlaying[0] = false;
         Button SoundDisable = new Button("Disable sound");
-        Stage primaryStage = new Stage();
         SoundDisable.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -160,13 +190,26 @@ public class Main extends Application {
                 stage.setScene(OptionsScene);
             }
         }));
+
         NewGameBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if (DifChosen[0]) {
+                    GridPane grid = create(runValue[0], runValue[1], runValue[2]);
+                    Field.createScenenStage(grid);
+                    Field.curStage.show();
 
-                stage.close();
+                    stage.close();
+                } else {
+                    GridPane grid = create(5, 7 ,8);
+                    Field.createScenenStage(grid);
+                    stage.close();
+                    Field.curStage.show();
+
+                }
 
             }
+
         });
         Button InGameSound = new Button("Sound");
         InGameSound.setOnAction(new EventHandler<ActionEvent>() {
@@ -188,44 +231,9 @@ public class Main extends Application {
         MenuBox.setTranslateY(150);
         MenuBox.setTranslateX(150);
         mainRoot.getChildren().add(MenuBox);
-        /*VBox wonRoot = new VBox();
-        wonRoot.setAlignment(Pos.CENTER);
-        Text wonText = new Text("You win!");
-        wonText.setFont(Font.font(72));
-        wonRoot.getChildren().add(wonText);
-        Scene wonScene = new Scene(wonRoot);
-        Stage wonStage = new Stage();
-        wonStage.setMaxWidth(DefWidth);
-        wonStage.setMaxHeight(DefHeight);
-        wonStage.setMinWidth(DefHeight);
-        wonStage.setMinHeight(DefHeight);
-        wonStage.setScene(wonScene);
-        wonStage.show();
-        Stage LossStage = new Stage();
-                    Pane LossPic = new Pane();
-                    Image LossImg = new Image(getClass().getResourceAsStream("/lossimg.jpg"));
-                    ImageView ViewLossImg = new ImageView(LossImg);
-                    ViewLossImg.setFitHeight(500);
-                    ViewLossImg.setFitWidth(500);
-                    LossPic.getChildren().add(ViewLossImg);
-                    VBox lossroot = new VBox();
-                    Scene LossScene = new Scene(LossPic);
-                    lossroot.setAlignment(Pos.TOP_CENTER);
-                    Text losstext = new Text("You Died");
-                    losstext.setFont(Font.font(52));
-                    LossStage.setTitle("Game over");
-                    lossroot.getChildren().add(losstext);
-                    lossroot.setMinSize(250, 250);
-                    lossroot.setPrefSize(500, 500);
-                    String lossfile = "lossmusic.mp3";
-                    LossPic.getChildren().add(lossroot);
-                    Media losssound = new Media(new File(lossfile).toURI().toString());
-                    MediaPlayer lossPlayer = new MediaPlayer(losssound);
-                    lossPlayer.play();
-                    LossStage.setScene(LossScene);
-                    LossStage.show();*/
-
 
 
     }
 }
+
+
